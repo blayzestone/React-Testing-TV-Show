@@ -1,6 +1,5 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import Episodes from "./Episodes";
 
 const episodes = [
@@ -74,7 +73,10 @@ test("Renders without errors", () => {
 });
 
 test("Renders episodes", () => {
-  const { getAllByTestId } = render(<Episodes episodes={episodes} />);
+  const { queryAllByTestId, rerender } = render(<Episodes episodes={[]} />);
 
-  expect(getAllByTestId(/episode/i)).toHaveLength(episodes.length);
+  expect(queryAllByTestId(/episode/i)).toHaveLength(0);
+
+  rerender(<Episodes episodes={episodes} />);
+  expect(queryAllByTestId(/episode/i)).toHaveLength(episodes.length);
 });
